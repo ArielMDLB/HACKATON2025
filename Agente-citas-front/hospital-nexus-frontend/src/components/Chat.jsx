@@ -7,6 +7,7 @@ function Chat({ isLoggedIn, user }) {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [threadId, setThreadId] = useState(null); // ⬅️ NUEVO: Guardar threadId
   const messagesEndRef = useRef(null);
 
   const quickMessages = [
@@ -40,7 +41,13 @@ function Chat({ isLoggedIn, user }) {
     setIsLoading(true);
 
     try {
-      const response = await sendMessageToAI(textToSend, user);
+      // ⬅️ MODIFICADO: Pasar threadId al servicio
+      const response = await sendMessageToAI(textToSend, user, threadId);
+      
+      // ⬅️ NUEVO: Guardar el threadId de la respuesta
+      if (response.threadId) {
+        setThreadId(response.threadId);
+      }
       
       const aiMessage = {
         id: Date.now() + 1,
@@ -51,6 +58,7 @@ function Chat({ isLoggedIn, user }) {
       
       setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
+      console.error('Error en el chat:', error);
       const errorMessage = {
         id: Date.now() + 1,
         text: 'Lo siento, hubo un error al procesar tu mensaje. Por favor, intenta de nuevo.',
@@ -75,6 +83,12 @@ function Chat({ isLoggedIn, user }) {
     }
   };
 
+  // ⬅️ OPCIONAL: Función para reiniciar la conversación
+  const handleNewConversation = () => {
+    setMessages([]);
+    setThreadId(null);
+  };
+
   return (
     <section className="chat-section">
       <div className="chat-header">
@@ -83,6 +97,16 @@ function Chat({ isLoggedIn, user }) {
           <h2>Asistente Virtual Nexus</h2>
           <p>¿En qué podemos ayudarte hoy?</p>
         </div>
+        {/* ⬅️ OPCIONAL: Botón para nueva conversación */}
+        {messages.length > 0 && (
+          <button 
+            onClick={handleNewConversation}
+            className="new-conversation-btn"
+            title="Nueva conversación"
+          >
+            Nueva conversación
+          </button>
+        )}
       </div>
 
       {messages.length === 0 && (

@@ -3,36 +3,37 @@ import axios from 'axios';
 const API_URL = 'http://localhost:7071/api';
 
 
-export const sendMessageToAI = async (message, user = null) => {
+export const sendMessageToAI = async (message, user, threadId = null) => {
   try {
-    const response = await axios.post(`${API_URL}/chat`, {
-      message: message,
-      userId: user?.id || null,
-      userName: user?.name || 'Invitado',
-      timestamp: new Date().toISOString()
+    const response = await fetch(`${API_URL}/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user?.id || 'user-demo-001',
+        userName: user?.name || 'Usuario',
+        message: message,
+        threadId: threadId 
+      })
     });
 
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor');
+    }
+
+    const data = await response.json();
+    
     return {
-      message: response.data.message || response.data.response,
-      success: true
+      message: data.response,
+      threadId: data.threadId, 
+      status: data.status
     };
   } catch (error) {
-    console.error('Error al enviar mensaje:', error);
-    
-    // Manejo de errores específicos
-    if (error.response) {
-      // El servidor respondió con un código de estado fuera del rango 2xx
-      throw new Error(error.response.data.message || 'Error en el servidor');
-    } else if (error.request) {
-      // La petición fue hecha pero no se recibió respuesta
-      throw new Error('No se pudo conectar con el servidor');
-    } else {
-      // Algo sucedió al configurar la petición
-      throw new Error('Error al procesar la solicitud');
-    }
+    console.error('Error en sendMessageToAI:', error);
+    throw error;
   }
 };
-
 /**
  * Obtiene el historial de chat (opcional)
  * @param {string} userId - ID del usuario

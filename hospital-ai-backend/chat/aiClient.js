@@ -15,8 +15,11 @@ async function createAIClient() {
   return { client, agentId };
 }
 
-async function processMessage(client, agentId, userId, userName, message) {
-  const thread = await client.agents.threads.create();
+async function processMessage(client, agentId, userId, userName, message, threadId = null) {
+  // Si hay threadId, usa ese. Si no, crea uno nuevo
+  const thread = threadId 
+    ? { id: threadId }
+    : await client.agents.threads.create();
 
   await client.agents.messages.create(thread.id, "user", message, {
     metadata: { userId, userName }
@@ -32,28 +35,24 @@ async function processMessage(client, agentId, userId, userName, message) {
     state = updated.status;
   }
 
- const messageIterator = await client.agents.messages.list(thread.id, { order: "asc" });
+  const messageIterator = await client.agents.messages.list(thread.id, { order: "desc", limit: 1 });
 
-let agentMessage = null;
-const allMessages = [];
-
-for await (const m of messageIterator) {
-  allMessages.push(m);
-  if (m.role === "assistant" && !agentMessage) {
-    agentMessage = m;
+  let agentMessage = null;
+  for await (const m of messageIterator) {
+    if (m.role === "assistant") {
+      agentMessage = m;
+      break;
+    }
   }
-}
 
-return {
-  response:
-    agentMessage && agentMessage.content?.[0]?.text
-      ? agentMessage.content[0].text.value
-      : "No se recibió respuesta del agente.",
-  threadId: thread.id,
-  runId: run.id,
-  rawMessages: allMessages
-};
-
+  return {
+    response:
+      agentMessage && agentMessage.content?.[0]?.text
+        ? agentMessage.content[0].text.value
+        : "No se recibió respuesta del agente.",
+    threadId: thread.id, 
+    runId: run.id
+  };
 }
 
 module.exports = { createAIClient, processMessage };
