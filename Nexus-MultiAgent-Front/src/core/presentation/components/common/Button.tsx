@@ -7,6 +7,8 @@ interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
   className?: string;
+  onClick?: () => void;  // ⬅️ AGREGADO
+  type?: 'button' | 'submit' | 'reset';  // ⬅️ AGREGADO (opcional pero útil)
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -16,6 +18,8 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   className = '',
   disabled = false,
+  onClick,  // ⬅️ AGREGADO
+  type = 'button',  // ⬅️ AGREGADO
 }) => {
   const baseStyle: React.CSSProperties = {
     display: 'inline-flex',
@@ -106,9 +110,11 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type={type}  // ⬅️ AGREGADO
       style={styles}
       className={className}
       disabled={disabled || isLoading}
+      onClick={onClick}  // ⬅️ AGREGADO
       onMouseEnter={(e) => {
         if (!disabled && !isLoading) {
           Object.assign(e.currentTarget.style, hoverStyles[variant]);

@@ -16,12 +16,23 @@ export const HeroCarousel = () => {
   useEffect(() => {
     getCarouselImages()
       .then((data) => {
-        // Adaptar al nuevo formato del mock
-        const formatted = data.map((item) => ({
+        // Adaptar al nuevo formato del mock con todas las propiedades requeridas
+        const formatted = data.map((item, index) => ({
+          id: item.id || `carousel-${index}`,
           imageUrl: item.imageUrl,
           altText: item.title || 'Imagen del carrusel',
+          order: index,
+          isActive: true,
+          createdAt: new Date().toISOString()
         }));
-        setImages(formatted);
+        
+        // Para el estado local solo necesitamos imageUrl y altText
+        const simpleFormatted = formatted.map(item => ({
+          imageUrl: item.imageUrl,
+          altText: item.altText
+        }));
+        
+        setImages(simpleFormatted);
         setStoreImages(formatted);
         setIsLoading(false);
       })
@@ -29,7 +40,7 @@ export const HeroCarousel = () => {
         setError('Error al cargar imágenes del mock');
         setIsLoading(false);
       });
-  }, []);
+  }, [setStoreImages]);
 
   useEffect(() => {
     if (isAutoPlaying && images.length > 0) {
