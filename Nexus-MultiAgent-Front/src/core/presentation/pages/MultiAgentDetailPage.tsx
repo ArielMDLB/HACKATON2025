@@ -53,7 +53,7 @@ export const MultiAgentDetailPage = () => {
 
       <MultiAgentDescription
         description={multiAgent.shortDescription}
-        fullDescription={multiAgent.longDescription || multiAgent.fullDescription}
+        fullDescription={multiAgent.fullDescription}
       />
 
       {multiAgent.capabilities && multiAgent.capabilities.length > 0 && (
