@@ -4,11 +4,13 @@ import { MultiAgent } from '../../domain/entities/MultiAgent.entity';
 interface MultiAgentState {
   multiAgents: MultiAgent[];
   selectedMultiAgent: MultiAgent | null;
+  selectedMultiAgentId: string | number | null; // CAMBIO: ahora acepta string o number
   isLoading: boolean;
   error: string | null;
   
   setMultiAgents: (multiAgents: MultiAgent[]) => void;
   setSelectedMultiAgent: (multiAgent: MultiAgent | null) => void;
+  setSelectedMultiAgentId: (id: string | number | null) => void; // CAMBIO: ahora acepta string o number
   setLoading: (isLoading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
@@ -18,6 +20,7 @@ interface MultiAgentState {
 const initialState = {
   multiAgents: [],
   selectedMultiAgent: null,
+  selectedMultiAgentId: null,
   isLoading: false,
   error: null
 };
@@ -25,15 +28,38 @@ const initialState = {
 export const useMultiAgentStore = create<MultiAgentState>((set) => ({
   ...initialState,
 
-  setMultiAgents: (multiAgents) => set({ multiAgents }),
+  setMultiAgents: (multiAgents) => {
+    console.log('[Store] setMultiAgents:', multiAgents.length, 'agentes');
+    set({ multiAgents });
+  },
 
-  setSelectedMultiAgent: (multiAgent) => set({ selectedMultiAgent: multiAgent }),
+  setSelectedMultiAgent: (multiAgent) => {
+    console.log('[Store] setSelectedMultiAgent:', multiAgent?.id, multiAgent?.title);
+    set({ selectedMultiAgent: multiAgent });
+  },
 
-  setLoading: (isLoading) => set({ isLoading }),
+  setSelectedMultiAgentId: (id) => {
+    console.log('[Store] setSelectedMultiAgentId:', id, 'tipo:', typeof id);
+    set({ selectedMultiAgentId: id });
+  },
 
-  setError: (error) => set({ error }),
+  setLoading: (isLoading) => {
+    console.log('[Store] setLoading:', isLoading);
+    set({ isLoading });
+  },
 
-  clearError: () => set({ error: null }),
+  setError: (error) => {
+    console.log('[Store] setError:', error);
+    set({ error });
+  },
 
-  reset: () => set(initialState)
+  clearError: () => {
+    console.log('[Store] clearError');
+    set({ error: null });
+  },
+
+  reset: () => {
+    console.log('[Store] reset');
+    set(initialState);
+  }
 }));

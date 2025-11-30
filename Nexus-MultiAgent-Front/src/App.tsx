@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LogtoProvider, useLogto } from '@logto/react';
 import { logtoConfig } from './config/logto.config';
 import { useAuthStore } from './core/presentation/stores/authStore';
@@ -63,6 +63,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        {/* CAMBIO CRÍTICO: Ruta dinámica que acepta cualquier ID */}
         <Route path="/multiagent/:id" element={<MultiAgentDetailPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

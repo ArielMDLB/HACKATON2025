@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMultiAgentStore } from "../core/presentation/stores/multiAgentStore";
 
 interface AgentCard {
-  id: number;
+  id: string; // CAMBIO: de number a string para coincidir con los mocks
   title: string;
   shortDescription: string;
   longDescription: string;
@@ -11,7 +13,7 @@ interface AgentCard {
 
 const agents: AgentCard[] = [
   {
-    id: 1,
+    id: '1', // CAMBIO: string en lugar de number
     title: "Agente de Reconocimiento de Personas",
     shortDescription:
       "Identidad sin documentos, seguridad sin esperas – Reconocimiento instantáneo que transforma rostros en acceso, desde conciertos hasta emergencias médicas.",
@@ -26,7 +28,7 @@ const agents: AgentCard[] = [
     demoLink: "https://example.com/demo-reconocimiento",
   },
   {
-    id: 2,
+    id: '2', // CAMBIO: string en lugar de number
     title: "Agente de Citas Dinámicas",
     shortDescription:
       "Tu asistente que lee entre líneas – Agenda reuniones, encuentra respuestas, detecta emociones y sabe exactamente cuándo necesitas hablar con un humano.",
@@ -42,7 +44,7 @@ const agents: AgentCard[] = [
     demoLink: "https://example.com/demo-citas",
   },
   {
-    id: 3,
+    id: '3', // CAMBIO: string en lugar de number
     title: "Agente de Filtrado de Postulantes",
     shortDescription:
       "Reclutamiento que ve más allá del CV – Evaluación integral con vigilancia ética: mide conocimientos, detecta potencial de aprendizaje y garantiza la integridad del proceso.",
@@ -59,10 +61,16 @@ const agents: AgentCard[] = [
   },
 ];
 
-import { useNavigate } from "react-router-dom";
 
 export const AgentCards = () => {
   const navigate = useNavigate();
+  const { setSelectedMultiAgentId } = useMultiAgentStore();
+
+  const handleSelectAgent = (agentId: string) => { // CAMBIO: de number a string
+    console.log("[AgentCards] Seleccionando agente con ID:", agentId);
+    setSelectedMultiAgentId(agentId); // Ya es string, no necesita conversión
+    navigate(`/multiagent/${agentId}`);
+  };
 
   return (
     <div
@@ -78,7 +86,7 @@ export const AgentCards = () => {
       {agents.map((agent) => (
         <div
           key={agent.id}
-          onClick={() => navigate(`/multiagent/${agent.id}`)}
+          onClick={() => handleSelectAgent(agent.id)}
           style={{
             width: "300px",
             padding: "1.5rem",

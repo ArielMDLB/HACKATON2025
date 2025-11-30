@@ -16,35 +16,6 @@ export const MultiAgentDetailPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Adaptación de tipos para evitar errores de asignación
-  const performanceMetrics = [
-    { label: 'Precisión', value: '99.8%', description: 'Exactitud del reconocimiento facial en condiciones óptimas.' },
-    { label: 'Latencia', value: '50ms', description: 'Tiempo promedio de respuesta por identificación.' },
-    { label: 'Escalabilidad', value: 'Alta', description: 'Capacidad de procesar múltiples solicitudes simultáneamente.' }
-  ];
-
-  const responsibleAI = {
-    description: 'Escalación automática a verificación humana en casos de baja confianza.',
-    transparency: 'Explicabilidad de decisiones basada en score de confianza.',
-    fairness: 'Evaluación equitativa sin sesgos demográficos.',
-    privacy: 'Protección de datos biométricos mediante cifrado y anonimización.'
-  };
-
-  const demoAccount = {
-    username: 'demo@azure.com',
-    password: 'demo123'
-  };
-
-  if (multiAgent) {
-    multiAgent.performanceMetrics = performanceMetrics;
-    multiAgent.responsibleAI = responsibleAI;
-    multiAgent.demoAccount = demoAccount;
-  }
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-dark">
@@ -67,19 +38,22 @@ export const MultiAgentDetailPage = () => {
     );
   }
 
+  // URL del logo - aquí puedes poner tu propia imagen
+  const logoUrl = ''; // COLOCA AQUÍ TU URL DE IMAGEN
+
   const title = multiAgent.title || multiAgent.name;
 
   return (
     <div className="min-h-screen">
       <MultiAgentDetailHeader
         title={title}
-        logo={multiAgent.logo}
+        logo={logoUrl}
         shortDescription={multiAgent.shortDescription}
       />
 
       <MultiAgentDescription
-        description={multiAgent.description}
-        fullDescription={multiAgent.fullDescription}
+        description={multiAgent.shortDescription}
+        fullDescription={multiAgent.longDescription || multiAgent.fullDescription}
       />
 
       {multiAgent.capabilities && multiAgent.capabilities.length > 0 && (

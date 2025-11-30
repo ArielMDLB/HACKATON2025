@@ -14,9 +14,6 @@ interface DemoSectionProps {
 export const DemoSection = ({ demoUrl, demoAccount, title }: DemoSectionProps) => {
   const { ref, fadeInUp } = useScrollAnimation();
   const [copiedField, setCopiedField] = useState<'username' | 'password' | null>(null);
-  
-  // Detectar si estamos en desarrollo
-  const isDevelopment = import.meta.env.MODE === 'development' || window.location.hostname === 'localhost';
 
   if (!demoUrl && !demoAccount) {
     return null;
@@ -127,26 +124,23 @@ export const DemoSection = ({ demoUrl, demoAccount, title }: DemoSectionProps) =
                     Abrir Demo en Nueva Ventana
                   </motion.a>
 
-                  {/* Solo mostrar botón de demo local en desarrollo */}
-                  {isDevelopment && (
-                    <motion.button
-                      onClick={() => {
-                        if (title.toLowerCase().includes('citas')) {
-                          window.location.href = 'http://localhost:5175/';
-                        } else if (title.toLowerCase().includes('reconocimiento')) {
-                          window.location.href = 'http://localhost:5176/';
-                        } else {
-                          window.location.href = demoUrl || 'http://localhost:5177/';
-                        }
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center justify-center gap-3 w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 transition-colors shadow-lg hover:shadow-xl"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                      Ir a Demo Local
-                    </motion.button>
-                  )}
+                  <motion.button
+                    onClick={() => {
+                      if (title.toLowerCase().includes('citas')) {
+                        window.location.href = 'http://localhost:5175/';
+                      } else if (title.toLowerCase().includes('reconocimiento')) {
+                        window.location.href = 'http://localhost:5174/';
+                      } else {
+                        window.location.href = demoUrl || 'http://localhost:5173/';
+                      }
+                    }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center justify-center gap-3 w-full py-4 bg-black text-white font-semibold rounded-xl hover:bg-gray-900 transition-colors shadow-lg hover:shadow-xl"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                    Ir a Demo Local
+                  </motion.button>
                 </div>
               )}
 
