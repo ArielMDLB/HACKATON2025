@@ -38,8 +38,7 @@ export const MultiAgentDetailPage = () => {
     );
   }
 
-  // URL del logo - aquí puedes poner tu propia imagen
-  const logoUrl = ''; // COLOCA AQUÍ TU URL DE IMAGEN
+  const logoUrl = 'https://documentshospitalstore.blob.core.windows.net/contenedor-docs-nexus/Logo_Nexus_AI-removebg-preview.png';
 
   const title = multiAgent.title || multiAgent.name;
 
