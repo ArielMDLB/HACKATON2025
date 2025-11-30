@@ -2,7 +2,7 @@ import { HeroCarousel } from '../core/presentation/components/features/carousel/
 import { CompanyMotto } from '../core/presentation/components/features/home/CompanyMotto';
 import { AboutUsSection } from '../core/presentation/components/features/home/AboutUsSection';
 import { ObjectivesSection } from '../core/presentation/components/features/home/ObjectivesSection';
-import { ResponsibleAISection } from '../core/presentation/components/features/home/ResponsibleAISection';
+import ResponsibleAISection from '../core/presentation/components/features/home/ResponsibleAISection';
 import { AppInfoSection } from '../core/presentation/components/features/home/AppInfoSection';
 import { MultiAgentGrid } from '../core/presentation/components/features/multiagent/MultiAgentGrid';
 import { Container } from '../core/presentation/components/common/Container';

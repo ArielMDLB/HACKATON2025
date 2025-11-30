@@ -57,7 +57,7 @@ export const useMultiAgentDetail = () => {
         } else if (!isDemoMode) {
           // Solo intentamos el backend si NO estamos en modo demo y NO encontramos el mock
           try {
-            const fetchedMultiAgent = await multiAgentRepository.getById(selectedMultiAgentId);
+            const fetchedMultiAgent = await multiAgentRepository.getById(String(selectedMultiAgentId));
             console.log('[useMultiAgentDetail] fetchedMultiAgent del backend:', fetchedMultiAgent);
             
             setMultiAgent(fetchedMultiAgent);
