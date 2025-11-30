@@ -16,7 +16,7 @@ export const DemoSection = ({ demoUrl, demoAccount, title }: DemoSectionProps) =
   const [copiedField, setCopiedField] = useState<'username' | 'password' | null>(null);
   
   // Detectar si estamos en desarrollo
-  const isDevelopment = import.meta.env.DEV || window.location.hostname === 'localhost';
+  const isDevelopment = import.meta.env.MODE === 'development' || window.location.hostname === 'localhost';
 
   if (!demoUrl && !demoAccount) {
     return null;
