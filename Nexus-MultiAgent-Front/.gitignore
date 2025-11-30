@@ -69,19 +69,7 @@ El proyecto sigue una arquitectura limpia por capas:
 - **Infrastructure**: Implementaciones de repositorios, mappers, API client
 - **Presentation**: Componentes, hooks, stores, páginas
 
-## Estructura de Carpetas
 
-```
-src/
-├── core/
-│   ├── domain/
-│   ├── infrastructure/
-│   └── presentation/
-├── config/
-├── types/
-├── utils/
-└── styles/
-```
 
 ## Scripts Disponibles
 
