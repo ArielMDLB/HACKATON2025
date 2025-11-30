@@ -16,24 +16,12 @@ export const HeroCarousel = () => {
   useEffect(() => {
     getCarouselImages()
       .then((data) => {
-        // Adaptar al nuevo formato del mock con todas las propiedades requeridas
-        const formatted = data.map((item, index) => ({
-          id: item.id || `carousel-${index}`,
-          imageUrl: item.imageUrl,
-          altText: item.title || 'Imagen del carrusel',
-          order: index,
-          isActive: true,
-          createdAt: new Date().toISOString()
-        }));
-        
-        // Para el estado local solo necesitamos imageUrl y altText
-        const simpleFormatted = formatted.map(item => ({
+        // Simplificado: data ya viene con el formato correcto
+        setImages(data.map(item => ({
           imageUrl: item.imageUrl,
           altText: item.altText
-        }));
-        
-        setImages(simpleFormatted);
-        setStoreImages(formatted);
+        })));
+        setStoreImages(data);
         setIsLoading(false);
       })
       .catch(() => {

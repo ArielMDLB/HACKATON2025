@@ -8,8 +8,8 @@ export const LoginButton: React.FC = () => {
   const { signIn } = useLogto();
 
   const handleLogin = () => {
-    signIn(ENV.logto.redirectUri);
-  };
+signIn(ENV.LOGTO_ENDPOINT + '/callback');
+signIn(window.location.origin + '/callback');  };
 
   return (
     <Button variant="primary" onClick={handleLogin}>
